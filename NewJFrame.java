@@ -637,7 +637,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nfileActionPerformed
 
     private void sfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfileActionPerformed
-       
+        operateFile("save a file", FILE_SAVE);
     }//GEN-LAST:event_sfileActionPerformed
 
     private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
@@ -649,9 +649,40 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_infoActionPerformed
 
     private void ofileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ofileActionPerformed
-       
+        operateFile("open a file", FILE_OPEN);
     }//GEN-LAST:event_ofileActionPerformed
-    
+                                       
+    private void operateFile(String title, int type){
+        JFileChooser chooser = new JFileChooser();
+        int choose = -1;
+        chooser.setDialogTitle(title);
+        switch (type){
+            case FILE_OPEN:
+                choose = chooser.showOpenDialog(null);
+                break;
+            case FILE_SAVE:
+                choose = chooser.showSaveDialog(null);
+                break;
+        }
+        if(choose == JFileChooser.APPROVE_OPTION){
+            File file = chooser.getSelectedFile();
+            switch (type){
+                case FILE_OPEN:
+                    readFile(file);
+                    break;
+                case FILE_SAVE:
+                    writeFile(file);
+                    break; 
+            }
+        }
+    }
+    private void readFile(File file){
+        
+    }
+    private void writeFile(File file){
+        
+    }
+
     private void DrawAll()
     
     {
