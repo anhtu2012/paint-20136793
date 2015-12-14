@@ -6,11 +6,13 @@
 
 package javaapplication1;
 //thêm thư viện
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 //tạo lớp chính
 public class NewJFrame extends javax.swing.JFrame {      
     private static final int FILE_OPEN = 1;
@@ -20,6 +22,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     //khởi tạo đồ họa g2
     private Graphics2D g2;
+    //biến để lưu trữ tọa độ tạm thời
     int oldX = -1;
     int oldY = -1;   
    
@@ -325,29 +328,26 @@ public class NewJFrame extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(poi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(poi, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(eraser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(circ, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rect, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(15, 15, 15))
+                                .addComponent(clear, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(eraser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(circ, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rect, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(15, 15, 15)))
+                        .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(15, 15, 15)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(10, 10, 10)
@@ -508,34 +508,37 @@ public class NewJFrame extends javax.swing.JFrame {
         {
           g2 = (Graphics2D) jPanel1.getGraphics();
         }
-        // đánh dấu tọa độ ban đầu
+        // lưu trữ các tọa độ để tham khảo sau
             oldX = evt.getX();
             oldY = evt.getY();
     }//GEN-LAST:event_jPanel1MousePressed
     //bắt sự kiện nhả chuột
     private void jPanel1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseReleased
-      
-        int newX = evt.getX(); //tạo tọa độ X cuối
-        int newY = evt.getY(); //tạo tọa độ Y cuối
-        int[] x = resolve(newX, oldX); //mối tương quan giữa 2 tọa độ đầu cuối
+        //giải quyết các tọa độ để các tọa độ nhỏ hơn của x và y có thể được lấy ra dễ dàng
+        int newX = evt.getX(); 
+        int newY = evt.getY(); 
+        int[] x = resolve(newX, oldX); 
         int[] y = resolve(newY, oldY);
         //nếu chọn nút vẽ đường thẳng
         if (line.isSelected())
                 {
-                g2.drawLine(oldX, oldY, newX, newY); //hàm vẽ đường        
+                    g2.drawLine(oldX, oldY, newX, newY); //hàm vẽ đường        
                 }
         //nếu chọn nút vẽ hình oval
         if (circ.isSelected())
                 {   
-                 g2.drawOval(x[0], y[0], (x[1] - x[0]), (y[1] - y[0])); //hàm vẽ oval
+                    g2.drawOval(x[0], y[0], (x[1] - x[0]), (y[1] - y[0])); //hàm vẽ oval
                 }
         //nếu chọn nút vẽ hình chữ nhật
         if (rect.isSelected())
                 {
-                g2.drawRect(x[0], y[0], (x[1] - x[0]), (y[1] - y[0])); //hàm vẽ chữ nhật
+                    g2.drawRect(x[0], y[0], (x[1] - x[0]), (y[1] - y[0])); //hàm vẽ chữ nhật
                 }      
     }//GEN-LAST:event_jPanel1MouseReleased
-    //mối liên quan giữa các tọa độ chuột
+
+    //Phương pháp giải quyết: được sử dụng để trao đổi hai con số xung quanh,
+    //nhỏ hơn luôn luôn là phần tử 0, 
+    //và phần lớn hơn là phần tử 1 của các mảng được trả về
     public int[] resolve(int newC, int oldC)
         {
           int start, end; //gọi tọa độ
@@ -560,17 +563,17 @@ public class NewJFrame extends javax.swing.JFrame {
         //chọn nút vẽ tự do
         if (poi.isSelected())   
         {
-         g2.drawLine(oldX, oldY, evt.getX(), evt.getY()); //hàm vẽ tự do
-        
-         oldX = evt.getX();
-         oldY = evt.getY();
+            g2.drawLine(oldX, oldY, evt.getX(), evt.getY()); //hàm vẽ tự do        
+            oldX = evt.getX();
+            oldY = evt.getY();
                
         }
         //chọn nút xóa
         if (eraser.isSelected())
         {
-         g2.clearRect(evt.getX(), evt.getY(), 10, 10); //hàm tạo nút xóa hình ô vuông
-        }
+            g2.clearRect(evt.getX(), evt.getY(), 10, 10);
+            g2.setBackground(Color.white);
+        }   
        
     }//GEN-LAST:event_jPanel1MouseDragged
     //bắt sự kiện click chuột
@@ -579,7 +582,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_clearMouseClicked
     //chọn nút tạo file
     private void nfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nfileActionPerformed
-        
+       
     }//GEN-LAST:event_nfileActionPerformed
     //chọn nút lưu file
     private void sfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sfileActionPerformed
@@ -613,7 +616,8 @@ public class NewJFrame extends javax.swing.JFrame {
     private void greenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenActionPerformed
         g2.setPaint(Color.green);
     }//GEN-LAST:event_greenActionPerformed
-                                       
+
+                                      
     private void operateFile(String title, int type){
         JFileChooser chooser = new JFileChooser();
         int choose = -1;
@@ -639,24 +643,11 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     private void readFile(File file){
-        //try{
-            //ofile.setText(null);
-            //FileReader fr = new FileReader (file);
-            //BufferedReader br = new BufferedReader (br);
-           // String line;
-            //while ((line = br.readLine()) != null) {
-                //ofile.append(line + "\n");
-           // }
-           // br.close();
-            //fr.close();
-       // } catch (Exception e) {
-            //JOptionPane.showMessageDialog(null, "error to save file: " + e.toString, "Error", JOptionPane.ERROR_MESSAGE);
-        //}
+   
     }
     private void writeFile(File file){
         
     }
-
     /**
      * @param args the command line arguments
      */
